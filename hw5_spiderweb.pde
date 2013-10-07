@@ -13,16 +13,16 @@ void setup()
   translate(width/2, height/2);
   scale(8);
   thetaInc = TWO_PI / sides;
-  
+
   setupVisual();
-  
+
   setupNodes();
-  
+
   setupSprings();
 
-spdr = new Spider();
-spdr.jump(false, false);
-
+  // start spider on a random node
+  spdr = new Spider();
+  spdr.jump(false, false);
 }
 
 void setupVisual()
@@ -47,13 +47,13 @@ void setupSprings()
 {
   // dealing in multiples of sides.
   // on a figure of n sides, node 0 lines up with node n, node 1 with n+1, etc.
-  
+
   // standard spiral
   for (int i = 1; i < numNodes; i++)
   {
     springs.add(new Spring(nodes[i], nodes[i-1]));
   }
-  
+
   // lines coming out
   for (int i = sides; i < numNodes; i++)
   {
@@ -70,15 +70,19 @@ void setupSprings()
  */
 void update()
 {
-  for (Spring spring : springs){ spring.update(); }
-  for (Node node : nodes){ node.update(); }
+  for (Spring spring : springs) { 
+    spring.update();
+  }
+  for (Node node : nodes) { 
+    node.update();
+  }
 }
 
 
 
 // INPUT SOMEWHERE HERE
 // nodes[round(random(numNodes))]
-  
+
 // drawing is spring-based
 void draw()
 {

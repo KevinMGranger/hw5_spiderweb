@@ -1,6 +1,6 @@
 class Node extends GameObj
 {
-  final float DAMPING;
+  final float MASS = 1.0;
   boolean locked;
   
   Node(float x, float y, boolean locked)
@@ -11,7 +11,18 @@ class Node extends GameObj
   }
   
   
-  void perturb(PVector vec)
+  void addForce(PVector frc)
   {
+    if (!locked) // otherwise no-op
+    {
+      acc.add(frc.div(MASS)
+      
+  }
+  
+  void update()
+  {
+    vel.add(acc);
+    pos.add(vel);
+    acc.
   }
 }

@@ -22,6 +22,8 @@ class Spider
       force.mult(DIST_FRC_MOD);
       nu.addForce(force);
     }
+    
+    onNode = nu;
   }
 
 
