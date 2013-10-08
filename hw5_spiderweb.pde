@@ -72,6 +72,14 @@ void setupSprings()
   }
 }
 
+void resetWeb()
+{
+  for (Node node : nodes)
+  {
+    node.reset();
+  }
+}
+
 /* 1. calculate spring forces based on node position
  * 2. apply all forces to nodes
  * 3. once all forces are added, *then* update node position
@@ -105,6 +113,7 @@ void keyReleased()
   else if (key == 'o') spdr.jump(true, false);
   else if (key == 'n') spdr.jump(false, true);
   else if (key == 'b' || key == ' ') spdr.jump(true, true);
+  else if (key == 'r') resetWeb();
 
   //  spdr.jump(false, false);
 }
