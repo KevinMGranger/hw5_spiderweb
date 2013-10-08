@@ -1,4 +1,6 @@
 int SCREEN_BORDER_SIZE = 400;
+boolean DEBUG = true;
+int jumpedAt;
 
 float r = 0, theta, radInc = 0.8, thetaInc;
 int sides = 7;
@@ -10,8 +12,7 @@ Spider spdr;
 void setup()
 {
   size(displayWidth - SCREEN_BORDER_SIZE, displayHeight - SCREEN_BORDER_SIZE, P2D);
-  translate(width/2, height/2);
-  scale(8);
+
   thetaInc = TWO_PI / sides;
 
   setupVisual();
@@ -22,7 +23,7 @@ void setup()
 
   // start spider on a random node
   spdr = new Spider();
-  spdr.jump(false, false);
+  spdr._jump();
 }
 
 void setupVisual()
@@ -59,6 +60,16 @@ void setupSprings()
   {
     springs.add(new Spring(nodes[i], nodes[i-sides]));
   }
+
+  // setup locked springs
+  for (int i=numNodes-1; i > numNodes-1-sides; i--)
+  {
+    nodes[i].locked = true;
+  }
+  for (int i = 0; i < sides; i++)
+  {
+    nodes[i].locked = true;
+  }
 }
 
 /* 1. calculate spring forces based on node position
@@ -70,10 +81,15 @@ void setupSprings()
  */
 void update()
 {
-  for (Spring spring : springs) { 
+  spdr.update();
+
+  for (Spring spring : springs)
+  { 
     spring.update();
   }
-  for (Node node : nodes) { 
+  println(nodes[10].acc.mag());
+  for (Node node : nodes)
+  { 
     node.update();
   }
 }
@@ -81,14 +97,35 @@ void update()
 
 
 // INPUT SOMEWHERE HERE
-// nodes[round(random(numNodes))]
+
+void keyReleased()
+{
+
+  if (key == 'x') spdr.jump(false, false);
+  else if (key == 'o') spdr.jump(true, false);
+  else if (key == 'n') spdr.jump(false, true);
+  else if (key == 'b' || key == ' ') spdr.jump(true, true);
+
+  //  spdr.jump(false, false);
+}
+
 
 // drawing is spring-based
 void draw()
 {
+  update();
+  background(0);
+
+  pushMatrix();
+  translate(width/2, height/2);
+  scale(7);
+
   for (Spring spring : springs)
   {
     spring.display();
   }
+  spdr.display();
+
+  popMatrix();
 }
 
